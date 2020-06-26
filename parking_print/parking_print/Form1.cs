@@ -98,6 +98,7 @@ namespace ParkingPrint
 
         private void button1_Click(object sender, EventArgs e) //출력
         {
+            Print_papers();
             disable_units();
 
         }
