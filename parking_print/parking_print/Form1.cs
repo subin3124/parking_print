@@ -136,7 +136,24 @@ namespace ParkingPrint
             Print_Num.Enabled = true;
 
         }
+        private void Print_papers()
+        {
+            int printN = Int32.Parse(Print_Num.Text);
+            for(int i=0;i<=printN;i++)
+            {
+                Initialize_Print();
 
+            }
+        } 
+        private void Initialize_Print()
+        {
+            this.bufSerialSND = Form1._Mechatro.Mecha_Clear();
+            this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
+            this.bufSerialSND = Form1._Mechatro.Mecha_Density();
+            this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
+            this.bufSerialSND = Form1._Mechatro.Mecha_Size();
+            this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
+        }
 
     }
 }
