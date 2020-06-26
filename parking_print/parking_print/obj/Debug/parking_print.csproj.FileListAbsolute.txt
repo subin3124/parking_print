@@ -1,0 +1,10 @@
+C:\Users\subin\source\repos\parking_print\parking_print\parking_print\obj\Debug\parking_print.csprojAssemblyReference.cache
+C:\Users\subin\source\repos\parking_print\parking_print\parking_print\obj\Debug\ParkingPrint.Form1.resources
+C:\Users\subin\source\repos\parking_print\parking_print\parking_print\obj\Debug\parking_print.Properties.Resources.resources
+C:\Users\subin\source\repos\parking_print\parking_print\parking_print\obj\Debug\parking_print.csproj.GenerateResource.cache
+C:\Users\subin\source\repos\parking_print\parking_print\parking_print\obj\Debug\parking_print.csproj.CoreCompileInputs.cache
+C:\Users\subin\source\repos\parking_print\parking_print\parking_print\bin\Debug\parking_print.exe.config
+C:\Users\subin\source\repos\parking_print\parking_print\parking_print\bin\Debug\parking_print.exe
+C:\Users\subin\source\repos\parking_print\parking_print\parking_print\bin\Debug\parking_print.pdb
+C:\Users\subin\source\repos\parking_print\parking_print\parking_print\obj\Debug\parking_print.exe
+C:\Users\subin\source\repos\parking_print\parking_print\parking_print\obj\Debug\parking_print.pdb
