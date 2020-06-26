@@ -96,6 +96,47 @@ namespace ParkingPrint
             int num1 = (int)MessageBox.Show("Mechatro 포트를 연결하지 못했습니다....!!");
         }
 
+        private void button1_Click(object sender, EventArgs e) //출력
+        {
+            disable_units();
+
+        }
+
+        private void button2_Click(object sender, EventArgs e) //멈춤
+        {
+            enabled_units();
+        }
+        private void disable_units()
+        {
+            parksale.Enabled = false;
+            SelectSale.Enabled = false;
+            cpn_w1.Enabled = false;
+            cpn_w2.Enabled = false;
+            cpn_w3.Enabled = false;
+            cpn_w4.Enabled = false;
+            cpn_w5.Enabled = false;
+            cpn_w6.Enabled = false;
+            sikcode.Enabled = false;
+            StartNum.Enabled = false;
+            Print_Num.Enabled = false;
+
+        }
+        private void enabled_units()
+        {
+            parksale.Enabled = true;
+            SelectSale.Enabled = true;
+            cpn_w1.Enabled = true;
+            cpn_w2.Enabled = true;
+            cpn_w3.Enabled = true;
+            cpn_w4.Enabled = true;
+            cpn_w5.Enabled = true;
+            cpn_w6.Enabled = true;
+            sikcode.Enabled = true;
+            StartNum.Enabled = true;
+            Print_Num.Enabled = true;
+
+        }
+
 
     }
 }

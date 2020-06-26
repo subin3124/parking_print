@@ -53,6 +53,7 @@
             this.cpn_w1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.All_Printed = new System.Windows.Forms.Label();
             this.Print_Num = new System.Windows.Forms.TextBox();
@@ -61,7 +62,6 @@
             this.StartNum = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.log = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
             cpn_1 = new System.Windows.Forms.CheckBox();
             cpn_2 = new System.Windows.Forms.CheckBox();
             cpn_3 = new System.Windows.Forms.CheckBox();
@@ -83,6 +83,7 @@
             cpn_1.Size = new System.Drawing.Size(22, 21);
             cpn_1.TabIndex = 1;
             cpn_1.UseVisualStyleBackColor = true;
+           
             // 
             // cpn_2
             // 
@@ -292,6 +293,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "출력설정";
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(301, 76);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(119, 37);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "멈춤";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.All_Printed);
@@ -335,6 +346,7 @@
             this.button1.TabIndex = 2;
             this.button1.Text = "출력";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // StartNum
             // 
@@ -359,15 +371,6 @@
             this.log.Name = "log";
             this.log.Size = new System.Drawing.Size(788, 108);
             this.log.TabIndex = 5;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(301, 76);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(119, 37);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "멈춤";
-            this.button2.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
