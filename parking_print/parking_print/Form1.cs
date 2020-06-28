@@ -142,8 +142,10 @@ namespace ParkingPrint
             int printN = Int32.Parse(Print_Num.Text);
             for(int i=0;i<=printN;i++)
             {
-                Initialize_Print();
-
+                Initialize_Print(); //출력기초선언
+                // part1 출력
+                //바코드 출력(part2)
+                // part3 출력
             }
         } 
         private void Initialize_Print()
@@ -155,6 +157,5 @@ namespace ParkingPrint
             this.bufSerialSND = Form1._Mechatro.Mecha_Size();
             this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
         }
-
-    }
+      }
 }
