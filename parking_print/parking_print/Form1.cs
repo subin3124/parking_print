@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.IO.Ports;
 using System.Diagnostics;
+using System.Threading;
+
 namespace ParkingPrint
 {
 
@@ -27,7 +29,7 @@ namespace ParkingPrint
         private byte[] Mechatro_Array = new byte[24];
         public static string serialNo = "";
         public static int serialNum = 0;
-        
+        bool print = false;
 
     public Form1()
         {
@@ -98,6 +100,7 @@ namespace ParkingPrint
 
         private void button1_Click(object sender, EventArgs e) //출력
         {
+            print = true;
             Print_papers();
             disable_units();
 
@@ -105,6 +108,7 @@ namespace ParkingPrint
 
         private void button2_Click(object sender, EventArgs e) //멈춤
         {
+            print = false;
             enabled_units();
         }
         private void disable_units()
@@ -120,6 +124,8 @@ namespace ParkingPrint
             sikcode.Enabled = false;
             StartNum.Enabled = false;
             Print_Num.Enabled = false;
+            button1.Enabled = false;
+            button2.Enabled = true;
 
         }
         private void enabled_units()
@@ -135,20 +141,31 @@ namespace ParkingPrint
             sikcode.Enabled = true;
             StartNum.Enabled = true;
             Print_Num.Enabled = true;
+            button1.Enabled = true;
+            button2.Enabled = false;
 
         }
         private void Print_papers()
         {
-
+            serialNum = Convert.ToInt32(StartNum);
+            All_Printed.Text = serialNum.ToString();
+            serialNo = serialNum.ToString("00000");
             int printN = Int32.Parse(Print_Num.Text);
             setCC();
 
             for(int i=0;i<=printN;i++)
             {
                 Initialize_Print(); //출력기초선언
-                // part1 출력
-                Print_barcode();
-                // part3 출력
+                Print_Part1(); // part1 출력
+                Print_barcode(); //바코드 출력
+                Print_Part3();  // part3 출력
+                Finish_Print(); //출력 주기 종료
+                log.AppendText(serialNo + "번째 종이가 출력되었습니다."); //로그출력
+                serialNum++; //시리얼 넘버 상승
+                serialNo = serialNum.ToString(); //시리얼 넘버를 문자열로
+                Thread.Sleep(5000); // 5초간 정지
+                if (!print)
+                    break;
             }
         } 
         private void Initialize_Print()
@@ -159,10 +176,74 @@ namespace ParkingPrint
             this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
             this.bufSerialSND = Form1._Mechatro.Mecha_Size();
             this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
+
+        }
+        private void Finish_Print()
+        {
+            this.bufSerialSND = Form1._Mechatro.Mecha_Quantity("1", "1");
+            this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
+            this.bufSerialSND = Form1._Mechatro.Mecha_Clear();
+            this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
         }
        private void Print_Part1()
         {
-
+            if(checkBox1.Checked)
+                Line1_w1();
+            if(checkBox2.Checked)
+                Line1_w2();
+            if(checkBox3.Checked)
+                Line1_w3();
+        }
+        private void Print_Part3()
+        {
+            if (checkBox4.Checked)
+                Line2_w1();
+            if (checkBox5.Checked)
+                Line2_w2();
+            if (checkBox6.Checked)
+                Line2_w3();
+        }
+        private void Line1_w1()
+        {
+            int Length = cpn_w1.Text.Length;
+            int space_num = 335 - 15 * (Length - 1);
+            this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), "60", "K", "0", "1.2", "1.2", cpn_w1.Text); //635
+            this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
+        }
+        private void Line1_w2()
+        {
+            int Length = cpn_w2.Text.Length;
+            int space_num = 335 - 15 * (Length - 1);
+            this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), "136", "K", "0", "1.2", "1.2", cpn_w2.Text); //635
+            this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
+        }
+        private void Line1_w3()
+        {
+            int Length = cpn_w3.Text.Length;
+            int space_num = 335 - 15 * (Length - 1);
+            this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), "60", "K", "0", "1.2", "1.2", cpn_w3.Text); //635 y위치 수정할것!
+            this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
+        }
+        private void Line2_w1()
+        {
+            int Length = cpn_w4.Text.Length;
+            int space_num = 335 - 15 * (Length - 1);
+            this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), "525", "K", "0", "1.2", "1.2", cpn_w4.Text); //635
+            this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
+        }
+        private void Line2_w2()
+        {
+            int Length = cpn_w5.Text.Length;
+            int space_num = 335 - 15 * (Length - 1);
+            this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), "525", "K", "0", "1.2", "1.2", cpn_w5.Text); //635
+            this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
+        }
+        private void Line2_w3()
+        {
+            int Length = cpn_w6.Text.Length;
+            int space_num = 335 - 15 * (Length - 1);
+            this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), "525", "K", "0", "1.2", "1.2", cpn_w6.Text); //635
+            this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
         }
         private void Print_barcode()
         {
