@@ -15,7 +15,7 @@ namespace ParkingPrint
 
     public partial class Form1 : Form
     {
-       
+        string companyCod = "";  
         private static Mechatro _Mechatro = new Mechatro();
         public static int serial = 0;
         private SerialPort Mechatro_Port;
@@ -139,12 +139,15 @@ namespace ParkingPrint
         }
         private void Print_papers()
         {
+
             int printN = Int32.Parse(Print_Num.Text);
+            setCC();
+
             for(int i=0;i<=printN;i++)
             {
                 Initialize_Print(); //출력기초선언
                 // part1 출력
-                //바코드 출력(part2)
+                Print_barcode();
                 // part3 출력
             }
         } 
@@ -157,5 +160,78 @@ namespace ParkingPrint
             this.bufSerialSND = Form1._Mechatro.Mecha_Size();
             this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
         }
-      }
+       private void Print_Part1()
+        {
+
+        }
+        private void Print_barcode()
+        {
+            this.bufSerialSND = Form1._Mechatro.Mecha_Barcode("195", "300", "128A", "180", "1", "0", "2", "8", DateTime.Now.ToString("yy") + DateTime.Now.ToString("MM") + DateTime.Now.ToString("dd") + Form1.serialNo + companyCod + Global.OneHour);
+            this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
+        }
+        private void setCC()
+        {
+            if (HangulHelper.IsHangul(cpn_w2.Text.Substring(0, 1).ToString()))
+            {
+                char[] tt = cpn_w2.Text.Substring(0, 1).ToCharArray();
+                char[] elementArray = HangulHelper.DivideHangul(tt[0]);
+                String comp = elementArray[0].ToString();
+                companyCod = Compa(comp);
+            }
+            else
+            {
+                char[] ascii = cpn_w2.Text.Substring(0, 1).ToUpper().ToCharArray();
+                companyCod = Convert.ToInt32(ascii[0]).ToString();
+                Debug.WriteLine(companyCod);
+                
+            }
+        }
+        private String Compa(String comp)
+        {
+            char[] g = HangulHelper.DivideHangul('가');
+            char[] n = HangulHelper.DivideHangul('나');
+            char[] m = HangulHelper.DivideHangul('마');
+            char[] b = HangulHelper.DivideHangul('바');
+            char[] s = HangulHelper.DivideHangul('사');
+            char[] o = HangulHelper.DivideHangul('아');
+            char[] j = HangulHelper.DivideHangul('자');
+            char[] c = HangulHelper.DivideHangul('차');
+            char[] k = HangulHelper.DivideHangul('카');
+            char[] t = HangulHelper.DivideHangul('타');
+            char[] p = HangulHelper.DivideHangul('파');
+            char[] h = HangulHelper.DivideHangul('하');
+            char[] d = HangulHelper.DivideHangul('다');
+            char[] L = HangulHelper.DivideHangul('라');
+            if (comp == g[0].ToString())
+                return "71";
+            else if (comp == n[0].ToString())
+                return "78";
+            else if (comp == d[0].ToString())
+                return "68";
+            else if (comp == L[0].ToString())
+                return "76";
+            else if (comp == m[0].ToString())
+                return "77";
+            else if (comp == b[0].ToString())
+                return "66";
+            else if (comp == s[0].ToString())
+                return "83";
+            else if (comp == o[0].ToString())
+                return "79";
+            else if (comp == j[0].ToString())
+                return "74";
+            else if (comp == c[0].ToString())
+                return "67";
+            else if (comp == k[0].ToString())
+                return "75";
+            else if (comp == t[0].ToString())
+                return "84";
+            else if (comp == p[0].ToString())
+                return "80";
+            else if (comp == h[0].ToString())
+                return "72";
+            else
+                return "00";
+        }
+    }
 }
