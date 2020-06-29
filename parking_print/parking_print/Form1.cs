@@ -147,7 +147,7 @@ namespace ParkingPrint
         }
         private void Print_papers()
         {
-            serialNum = Convert.ToInt32(StartNum);
+            serialNum = Int32.Parse(StartNum.Text);
             All_Printed.Text = serialNum.ToString();
             serialNo = serialNum.ToString("00000");
             int printN = Int32.Parse(Print_Num.Text);
