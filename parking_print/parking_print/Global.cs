@@ -22,7 +22,7 @@ namespace ParkingPrint
         public static string CompanyName4 = "";
         public static string CompanyName5 = "";
         public static string time = "";
-        public static string yy = "";
+        public static string yy = "20";
         public static string MM = "";
         public static string dd = "";
         public static string BarcodePrint = "COM6";
@@ -43,7 +43,7 @@ namespace ParkingPrint
         public static string FiveHours = "300";
         public static string SixHours = "360";
         public static string OneDay = "88888";
-        public static string AllFree = "99999";
+        public static string AllFree = "000";
         public const string fmt1 = "00000";
         public const string fmt2 = "000";
         public const string formatString1 = "{0,4:00000}";

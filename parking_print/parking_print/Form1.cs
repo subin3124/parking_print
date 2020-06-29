@@ -101,8 +101,9 @@ namespace ParkingPrint
         private void button1_Click(object sender, EventArgs e) //출력
         {
             print = true;
-            Print_papers();
             disable_units();
+            Print_papers();
+           
 
         }
 
@@ -147,26 +148,29 @@ namespace ParkingPrint
         }
         private void Print_papers()
         {
+            Global.sikcode = sikcode.Text;
             serialNum = Int32.Parse(StartNum.Text);
             All_Printed.Text = serialNum.ToString();
             serialNo = serialNum.ToString("00000");
             int printN = Int32.Parse(Print_Num.Text);
             setCC();
 
-            for(int i=0;i<=printN;i++)
+            for(int i=1;i<=printN;i++)
             {
                 Initialize_Print(); //출력기초선언
                 Print_Part1(); // part1 출력
                 Print_barcode(); //바코드 출력
                 Print_Part3();  // part3 출력
+                Print_box();
                 Finish_Print(); //출력 주기 종료
                 log.AppendText(serialNo + "번째 종이가 출력되었습니다."); //로그출력
                 serialNum++; //시리얼 넘버 상승
-                serialNo = serialNum.ToString(); //시리얼 넘버를 문자열로
+                serialNo = serialNum.ToString("00000"); //시리얼 넘버를 문자열로
                 Thread.Sleep(5000); // 5초간 정지
                 if (!print)
                     break;
             }
+            enabled_units();
         } 
         private void Initialize_Print()
         {
@@ -185,14 +189,30 @@ namespace ParkingPrint
             this.bufSerialSND = Form1._Mechatro.Mecha_Clear();
             this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
         }
+        private void Print_box()
+        {
+            this.bufSerialSND = Form1._Mechatro.Mecha_Box("130", "1", "525", "714", "2");
+            this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
+        }
        private void Print_Part1()
         {
-            if(checkBox1.Checked)
+            if (checkBox1.Checked && checkBox2.Checked && !checkBox3.Checked)
+            {
                 Line1_w1();
-            if(checkBox2.Checked)
-                Line1_w2();
-            if(checkBox3.Checked)
-                Line1_w3();
+                Line1_w2(130);
+            }
+            else
+            {
+                if (checkBox1.Checked)
+                    Line1_w1();
+
+                if (checkBox2.Checked)
+                    Line1_w2(100);
+
+                if (checkBox3.Checked)
+                    Line1_w3();
+            }
+
         }
         private void Print_Part3()
         {
@@ -206,48 +226,71 @@ namespace ParkingPrint
         private void Line1_w1()
         {
             int Length = cpn_w1.Text.Length;
-            int space_num = 335 - 15 * (Length - 1);
-            this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), "60", "K", "0", "1.2", "1.2", cpn_w1.Text); //635
+            int space_num = 315 - 30 * (Length - 1);
+            this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), "30", "K", "0", "2", "2", cpn_w1.Text); //635
             this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
         }
-        private void Line1_w2()
+        private void Line1_w2(int y)
         {
             int Length = cpn_w2.Text.Length;
-            int space_num = 335 - 15 * (Length - 1);
-            this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), "136", "K", "0", "1.2", "1.2", cpn_w2.Text); //635
+            int space_num = 315 - 13* (Length - 1);
+            this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), y.ToString(), "K", "0", "1.2", "1.2", cpn_w2.Text); //635
             this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
         }
         private void Line1_w3()
         {
             int Length = cpn_w3.Text.Length;
-            int space_num = 335 - 15 * (Length - 1);
-            this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), "60", "K", "0", "1.2", "1.2", cpn_w3.Text); //635 y위치 수정할것!
+            int space_num = 315 - 13 * (Length - 1);
+            this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), "165", "K", "0", "1.2", "1.2", cpn_w3.Text); //635 y위치 수정할것!
             this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
         }
         private void Line2_w1()
         {
             int Length = cpn_w4.Text.Length;
-            int space_num = 335 - 15 * (Length - 1);
+            int space_num = 315 - 13 * (Length - 1);
             this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), "525", "K", "0", "1.2", "1.2", cpn_w4.Text); //635
             this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
         }
         private void Line2_w2()
         {
             int Length = cpn_w5.Text.Length;
-            int space_num = 335 - 15 * (Length - 1);
-            this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), "525", "K", "0", "1.2", "1.2", cpn_w5.Text); //635
+            int space_num = 315 - 13 * (Length - 1);
+            this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), "575", "K", "0", "1.2", "1.2", cpn_w5.Text); //635
             this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
         }
         private void Line2_w3()
         {
             int Length = cpn_w6.Text.Length;
-            int space_num = 335 - 15 * (Length - 1);
-            this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), "525", "K", "0", "1.2", "1.2", cpn_w6.Text); //635
+            int space_num = 315 - 13 * (Length - 1);
+            this.bufSerialSND = Form1._Mechatro.Mecha_Text(space_num.ToString(), "625", "K", "0", "1.2", "1.2", cpn_w6.Text); //635
             this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
         }
         private void Print_barcode()
         {
-            this.bufSerialSND = Form1._Mechatro.Mecha_Barcode("195", "300", "128A", "180", "1", "0", "2", "8", DateTime.Now.ToString("yy") + DateTime.Now.ToString("MM") + DateTime.Now.ToString("dd") + Form1.serialNo + companyCod + Global.OneHour);
+            switch (parksale.SelectedItem.ToString())
+            {
+                case "주차권":
+                    this.bufSerialSND = Form1._Mechatro.Mecha_Barcode("205", "250", "128A", "180", "1", "0", "2", "9", Global.yy + Global.sikcode + Form1.serialNo + companyCod + "0" + DateTime.Now.ToString("MM") + DateTime.Now.ToString("dd"));
+                    break;
+
+                case "할인권":
+                    switch (SelectSale.SelectedItem.ToString())
+                    {
+                        case "30분":
+                            this.bufSerialSND = Form1._Mechatro.Mecha_Barcode("205", "250", "128A", "180", "1", "0", "2", "8", Global.yy + DateTime.Now.ToString("MM") + Global.dd + Form1.serialNo + companyCod + Global.Half);
+                            break;
+                        case "1시간":
+                            this.bufSerialSND = Form1._Mechatro.Mecha_Barcode("205", "250", "128A", "180", "1", "0", "2", "8", Global.yy + DateTime.Now.ToString("MM") + Global.dd + Form1.serialNo + companyCod + Global.OneHour);
+                            break;
+                        case "2시간":
+                            this.bufSerialSND = Form1._Mechatro.Mecha_Barcode("205", "250", "128A", "180", "1", "0", "2", "8", Global.yy + DateTime.Now.ToString("MM") + Global.dd + Form1.serialNo + companyCod + Global.TwoHours); //Global.MM
+                            break;
+                        case "전액무료":
+                            this.bufSerialSND = Form1._Mechatro.Mecha_Barcode("205", "250", "128A", "180", "1", "0", "2", "9", Global.yy + DateTime.Now.ToString("MM") + Global.dd + Form1.serialNo + companyCod + Global.AllFree);
+                            break;
+                    }break;
+            }
+
             this.MechatroPort.Write(this.bufSerialSND, 0, this.bufSerialSND.Length);
         }
         private void setCC()
@@ -313,6 +356,20 @@ namespace ParkingPrint
                 return "72";
             else
                 return "00";
+        }
+
+        private void parksale_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           switch(parksale.SelectedItem.ToString())
+            {
+                case "주차권":
+                    SelectSale.Enabled = false;
+                    break;
+                case "할인권":
+                    SelectSale.Enabled = true;
+                    break;
+
+            }
         }
     }
 }
